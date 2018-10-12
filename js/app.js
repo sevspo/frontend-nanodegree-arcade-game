@@ -37,9 +37,11 @@ Enemy.prototype.render = function() {
 
 class Player {
     constructor () {
+        this.sprite = 'images/char-boy.png';
+        this.movHorizontal = 101
+        this.movVertical = 83
         this.x = 0;
         this.y = 0;
-        this.sprite = 'images/char-boy.png';
     }
     render () {
        ctx.drawImage(Resources.get(this.sprite), this.x, this.y) 
@@ -47,8 +49,21 @@ class Player {
     update () { // Update position and check for collision and win
         
     }
-    handleInput () {
-
+    handleInput (input) {
+        switch (input) {
+            case 'left':
+                this.x -= this.movHorizontal;
+                break;
+            case  'up':
+                this.y -= this.movVertical;
+                break;
+            case 'right':
+                this.x += this.movHorizontal;
+                break;
+            case 'down':
+                this.y += this.movVertical;
+                break;
+        }
     }
 }
 
