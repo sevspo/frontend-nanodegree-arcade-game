@@ -38,30 +38,40 @@ Enemy.prototype.render = function() {
 class Player {
     constructor () {
         this.sprite = 'images/char-boy.png';
-        this.movHorizontal = 101
-        this.movVertical = 83
-        this.x = 0;
-        this.y = 0;
+        this.movHorizontal = 101; // this should be the size of one step, because this is also the width of a collumn
+        this.movVertical = 83; // same rules apply here.
+        this.startX = this.movHorizontal*2;
+        this.startY = (this.movVertical*5) - 20; // - (this.movVertical/3); // this moves player more to the center of the square
+        this.x = this.startX; // so here the starting position
+        this.y = this.startY;
     }
     render () {
        ctx.drawImage(Resources.get(this.sprite), this.x, this.y) 
     }
     update () { // Update position and check for collision and win
-        
+         
     }
     handleInput (input) {
         switch (input) {
             case 'left':
-                this.x -= this.movHorizontal;
+                if (this.x > 0) {
+                    this.x -= this.movHorizontal;
+                }
                 break;
             case  'up':
-                this.y -= this.movVertical;
+                if (this.y > 0) {
+                    this.y -= this.movVertical;
+                }
                 break;
             case 'right':
-                this.x += this.movHorizontal;
+                if (this.x < this.movHorizontal*4) {
+                    this.x += this.movHorizontal;
+                }
                 break;
             case 'down':
-                this.y += this.movVertical;
+                if (this.y < this.movVertical*4) {
+                    this.y += this.movVertical;
+                }
                 break;
         }
     }
