@@ -3,8 +3,9 @@ var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
-    // x pos
-    // y pos
+    this.x = 0; // x pos
+    this.y = 0; // y pos
+    this.movHorizontal = 101; // the with of a column that defines our base speed
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -19,6 +20,12 @@ Enemy.prototype.update = function(dt) {
     // all computers.
 
     // If enemy has not reached boundary
+    if (this.x < this.movHorizontal * 4) {
+        this.x += this.movHorizontal * dt //
+    } else {
+        this.x = 0;
+        //this.x += this.movHorizontal*this.dt
+    }
         // Move forward
         // increment x by distance * dt
     // else
@@ -81,7 +88,9 @@ class Player {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const player = new Player();
-
+const bug1 = new Enemy();
+const allEnemies = [];
+allEnemies.push(bug1);
 
 
 // This listens for key presses and sends the keys to your
