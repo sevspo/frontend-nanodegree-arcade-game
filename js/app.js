@@ -1,70 +1,48 @@
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
     this.x = x; // x pos
     this.y = y + 60; // y pos
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-bug.png';// The image/sprite for our enemies
     this.movHorizontal = 101; // the with of a column that defines the distance of the playground
-    this.speed = speed;
-
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+    this.speed = speed; //The distance to travel per frame in pixels
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-
-    // If enemy has not reached boundary
-    if (this.x < this.movHorizontal * 5) {
-        this.x += this.speed * dt //I don't understand why not this.dt
+Enemy.prototype.update = function(dt) { //update the enemies position
+    if (this.x < this.movHorizontal * 5) { //This sets the boundaries for the enemy
+        this.x += this.speed * dt //Distance to travel times timedelta
     } else {
         this.x = -this.movHorizontal;
     }
-
-
 };
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
+Enemy.prototype.render = function() { //This draws the enemy on screen.
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
-class Player {
+class Player { //Our player
     constructor () {
         this.sprite = 'images/char-boy.png';
         this.movHorizontal = 101; // this should be the size of one step, because this is also the width of a collumn
         this.movVertical = 83; // same rules apply here.
         this.startX = this.movHorizontal*2;
-        this.startY = this.movVertical*4 + 60; // - (this.movVertical/3); // this moves player more to the center of the square
-        this.x = this.startX; // so here the starting position
+        this.startY = this.movVertical*4 + 60; // this moves player more to the center of the square
+        this.x = this.startX; // the starting position
         this.y = this.startY;
     }
-    render () {
+    render () { //Draw our player on screen
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y) 
     }
     update () { // Update position and check for collision and win
-        for (const enemy of allEnemies) {
-            if(this.y === enemy.y && this.x > enemy.x - 20 && this.x < enemy.x + 50){
-                this.reset();
+        for (const enemy of allEnemies) { //loop though the array of enemies
+            if(this.y === enemy.y && this.x > enemy.x - 20 && this.x < enemy.x + 50){ //This sets the space in whick collison will occur.
+                this.reset(); 
             }
         }
-        if (this.y === -23) {
+        if (this.y === -23) { // Win condition shall be met when the player reaches the water
             this.reset();
-            
         }
     }
-    handleInput (input) {
+    handleInput (input) { //implement keyboard input and resulting movement
         switch (input) {
             case 'left':
                 if (this.x > 0) {
@@ -72,7 +50,7 @@ class Player {
                 }
                 break;
             case  'up':
-                if (this.y > 0) {
+                if (this.y > 0) { //Since the palyer shoud reach the water, we have to set the boundary here.
                     this.y -= this.movVertical;
                 }
                 break;
@@ -94,22 +72,16 @@ class Player {
     }
 }
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-const player = new Player();
-const bug1 = new Enemy(-101, 0, 250);
+const player = new Player(); //instantiate the player
+const bug1 = new Enemy(-101, 0, 250); //instantiate enemies
 const bug2 = new Enemy(-101, 83, 320);
 const bug3 = new Enemy(-101, 166, 150);
 const bug4 = new Enemy(-101, 166, 220);
 
-const allEnemies = [];
-allEnemies.push(bug1, bug2, bug3, bug4);
+const allEnemies = []; 
+allEnemies.push(bug1, bug2, bug3, bug4); //add enemies to the array
 
-
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
+document.addEventListener('keyup', function(e) { //List of key presses
     var allowedKeys = {
         37: 'left',
         38: 'up',
