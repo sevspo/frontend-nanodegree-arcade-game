@@ -4,7 +4,7 @@ var Enemy = function(x, y, speed) {
     // we've provided one for you to get started
 
     this.x = x; // x pos
-    this.y = y + 55; // y pos
+    this.y = y + 60; // y pos
     this.sprite = 'images/enemy-bug.png';
     this.movHorizontal = 101; // the with of a column that defines the distance of the playground
     this.speed = speed;
@@ -46,15 +46,23 @@ class Player {
         this.movHorizontal = 101; // this should be the size of one step, because this is also the width of a collumn
         this.movVertical = 83; // same rules apply here.
         this.startX = this.movHorizontal*2;
-        this.startY = this.movVertical*4 + 50; // - (this.movVertical/3); // this moves player more to the center of the square
+        this.startY = this.movVertical*4 + 60; // - (this.movVertical/3); // this moves player more to the center of the square
         this.x = this.startX; // so here the starting position
         this.y = this.startY;
     }
     render () {
-       ctx.drawImage(Resources.get(this.sprite), this.x, this.y) 
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y) 
     }
     update () { // Update position and check for collision and win
-         
+        for (const enemy of allEnemies) {
+            if(this.y === enemy.y && this.x > enemy.x - 20 && this.x < enemy.x + 50){
+                this.reset();
+            }
+        }
+        if (this.y === -23) {
+            this.reset();
+            
+        }
     }
     handleInput (input) {
         switch (input) {
@@ -79,6 +87,10 @@ class Player {
                 }
                 break;
         }
+    }
+    reset() {
+        this.y = this.startY;
+        this.x = this.startX;
     }
 }
 
