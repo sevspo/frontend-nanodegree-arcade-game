@@ -22,7 +22,8 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        frameId;
 
     canvas.width = 505;
     canvas.height = 606;
@@ -52,10 +53,15 @@ var Engine = (function(global) {
          */
         lastTime = now;
 
+        if (player.victory === true || pause === true) {
+            win.cancelAnimationFrame(frameId);
+        }
+        else {
+            frameId = win.requestAnimationFrame(main);
+        }
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
     }
 
     /* This function does some initial setup that should only occur once,
@@ -63,7 +69,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-        reset();
+        //reset();
         lastTime = Date.now();
         main();
     }
@@ -164,6 +170,11 @@ var Engine = (function(global) {
         // noop
     }
 
+    sButton.onclick = function () {
+        pause = false;
+        //win.requestAnimationFrame(main);
+        init();
+    }
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.

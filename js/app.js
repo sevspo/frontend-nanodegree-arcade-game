@@ -1,4 +1,12 @@
-// Enemies our player must avoid
+const numOfE = document.getElementById('numOfE');
+const pButton = document.getElementById('pButton');
+const sButton = document.getElementById('sButton');
+let pause = false;
+
+pButton.onclick = function () {
+    pause = true;
+}
+
 var Enemy = function() { //Our enemies constructor function
     this.x = -101; // x pos
     this.rows = [0, 83, 166]; //An array with possible rows values
@@ -29,6 +37,7 @@ class Player { //Our player
         this.startY = this.movVertical*4 + 60; // this moves player more to the center of the square
         this.x = this.startX; // the starting position
         this.y = this.startY;
+        this.victory = false;
     }
     render () { //Draw our player on screen
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y) 
@@ -40,7 +49,8 @@ class Player { //Our player
             }
         }
         if (this.y === -23) { // Win condition shall be met when the player reaches the water
-            this.reset();
+            //this.reset();
+            this.victory = true;
         }
     }
     handleInput (input) { //implement keyboard input and resulting movement
@@ -76,7 +86,9 @@ class Player { //Our player
 const player = new Player(); //instantiate the player
 
 const allEnemies = []; 
-let eCount = 10;
+
+let eCount = numOfE.value;
+
 for (let i = 0; i <= eCount; i++) {
     allEnemies[i] = new Enemy();
 }
