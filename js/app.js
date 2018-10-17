@@ -1,10 +1,11 @@
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
-    this.x = x; // x pos
-    this.y = y + 60; // y pos
+var Enemy = function() { //Our enemies constructor function
+    this.x = -101; // x pos
+    this.rows = [0, 83, 166]; //An array with possible rows values
+    this.y = this.rows[Math.floor(Math.random() * this.rows.length)] + 60; // gives us a random row!
     this.sprite = 'images/enemy-bug.png';// The image/sprite for our enemies
     this.movHorizontal = 101; // the with of a column that defines the distance of the playground
-    this.speed = speed; //The distance to travel per frame in pixels
+    this.speed = Math.floor(Math.random()*500 + 75); //The distance to travel per frame in pixels
 };
 
 Enemy.prototype.update = function(dt) { //update the enemies position
@@ -46,7 +47,7 @@ class Player { //Our player
         switch (input) {
             case 'left':
                 if (this.x > 0) {
-                    this.x -= this.movHorizontal;
+                   this.x -= this.movHorizontal;
                 }
                 break;
             case  'up':
@@ -73,13 +74,12 @@ class Player { //Our player
 }
 
 const player = new Player(); //instantiate the player
-const bug1 = new Enemy(-101, 0, 250); //instantiate enemies
-const bug2 = new Enemy(-101, 83, 320);
-const bug3 = new Enemy(-101, 166, 150);
-const bug4 = new Enemy(-101, 166, 220);
 
 const allEnemies = []; 
-allEnemies.push(bug1, bug2, bug3, bug4); //add enemies to the array
+let eCount = 10;
+for (let i = 0; i <= eCount; i++) {
+    allEnemies[i] = new Enemy();
+}
 
 document.addEventListener('keyup', function(e) { //List of key presses
     var allowedKeys = {
@@ -88,6 +88,5 @@ document.addEventListener('keyup', function(e) { //List of key presses
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
 });

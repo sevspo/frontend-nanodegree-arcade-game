@@ -7,5 +7,3 @@ Your goal is to reach the water and not get hit by the enemies!
 ___
 ### About
 Programming this game is an assignment for students of the Udacity Frontend Developer Nanodegree.
- 
-
