@@ -7,6 +7,18 @@ pButton.onclick = function () {
     pause = true;
 }
 
+numOfE.oninput = function () {
+    allEnemies = [];
+    eCount = numOfE.value;
+    if (eCount > 10) {
+        
+    } else {
+        for (let i = 0; i < eCount; i++) {
+            allEnemies[i] = new Enemy();
+        } 
+    }
+}
+
 var Enemy = function() { //Our enemies constructor function
     this.x = -101; // x pos
     this.rows = [0, 83, 166]; //An array with possible rows values
@@ -85,13 +97,13 @@ class Player { //Our player
 
 const player = new Player(); //instantiate the player
 
-const allEnemies = []; 
-
-let eCount = numOfE.value;
-
+let allEnemies = []; //Enemies Array
+let eCount = numOfE.value; 
 for (let i = 0; i < eCount; i++) {
     allEnemies[i] = new Enemy();
 }
+
+
 
 document.addEventListener('keyup', function(e) { //List of key presses
     var allowedKeys = {
