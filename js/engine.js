@@ -74,6 +74,13 @@ var Engine = (function(global) {
         main();
     }
 
+    sButton.onclick = function () {
+        player.victory = false;
+        pause = false;
+        //win.requestAnimationFrame(main);
+        init();
+    }
+
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
      * you implement your collision detection (when two entities occupy the
@@ -170,11 +177,6 @@ var Engine = (function(global) {
         // noop
     }
 
-    sButton.onclick = function () {
-        pause = false;
-        //win.requestAnimationFrame(main);
-        init();
-    }
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.

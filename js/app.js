@@ -49,8 +49,8 @@ class Player { //Our player
             }
         }
         if (this.y === -23) { // Win condition shall be met when the player reaches the water
-            //this.reset();
             this.victory = true;
+            this.reset();
         }
     }
     handleInput (input) { //implement keyboard input and resulting movement
@@ -89,7 +89,7 @@ const allEnemies = [];
 
 let eCount = numOfE.value;
 
-for (let i = 0; i <= eCount; i++) {
+for (let i = 0; i < eCount; i++) {
     allEnemies[i] = new Enemy();
 }
 
