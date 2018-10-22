@@ -1,21 +1,25 @@
 const numOfE = document.getElementById('numOfE');
 const pButton = document.getElementById('pButton');
 const sButton = document.getElementById('sButton');
+const numOfELabel = document.querySelector('.numOfELabel');
+const rsButton = document.querySelector('.rsButton');
+const winCount = document.querySelector('.winCount');
 let pause = false;
+let allEnemies = []; //Enemies Array
+let eCount = numOfE.value; 
 
-pButton.onclick = function () {
+pButton.onclick = function () { //when the button pause is pressed
     pause = true;
 }
 
-numOfE.oninput = function () {
-    allEnemies = [];
-    eCount = numOfE.value;
+numOfE.oninput = function () { //This function resets the enemies array and populates it with the new number of enemies on input
     if (eCount > 10) {
-        
+        numOfELabel.textContent = 'A number between 1 and 10';
     } else {
-        for (let i = 0; i < eCount; i++) {
-            allEnemies[i] = new Enemy();
-        } 
+        allEnemies = [];
+        eCount = numOfE.value;
+        numOfELabel.textContent = 'Number of Enemies';
+        createEnemies(eCount);
     }
 }
 
@@ -49,7 +53,7 @@ class Player { //Our player
         this.startY = this.movVertical*4 + 60; // this moves player more to the center of the square
         this.x = this.startX; // the starting position
         this.y = this.startY;
-        this.victory = false;
+        this.victory = 0;
     }
     render () { //Draw our player on screen
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y) 
@@ -57,12 +61,13 @@ class Player { //Our player
     update () { // Update position and check for collision and win
         for (const enemy of allEnemies) { //loop though the array of enemies
             if(this.y === enemy.y && this.x > enemy.x - 20 && this.x < enemy.x + 50){ //This sets the space in whick collison will occur.
-                this.reset(); 
+                this.resetPos(); 
             }
         }
         if (this.y === -23) { // Win condition shall be met when the player reaches the water
-            this.victory = true;
-            this.reset();
+            this.victory++;
+            winCount.textContent = `You've reached the water ${this.victory} times`;
+            this.resetPos();
         }
     }
     handleInput (input) { //implement keyboard input and resulting movement
@@ -89,7 +94,7 @@ class Player { //Our player
                 break;
         }
     }
-    reset() {
+    resetPos() {
         this.y = this.startY;
         this.x = this.startX;
     }
@@ -97,13 +102,13 @@ class Player { //Our player
 
 const player = new Player(); //instantiate the player
 
-let allEnemies = []; //Enemies Array
-let eCount = numOfE.value; 
-for (let i = 0; i < eCount; i++) {
-    allEnemies[i] = new Enemy();
+function createEnemies (num) { //create enemies function
+    for (let i = 0; i < num; i++) {
+        allEnemies[i] = new Enemy();
+    }
 }
 
-
+createEnemies(eCount); // create enemies for the first time (on loading)
 
 document.addEventListener('keyup', function(e) { //List of key presses
     var allowedKeys = {
@@ -112,5 +117,7 @@ document.addEventListener('keyup', function(e) { //List of key presses
         39: 'right',
         40: 'down'
     };
-    player.handleInput(allowedKeys[e.keyCode]);
+    if (pause === false) { //Prevents input when in pause
+        player.handleInput(allowedKeys[e.keyCode]);  
+    }
 });

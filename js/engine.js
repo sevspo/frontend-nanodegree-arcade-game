@@ -53,11 +53,11 @@ var Engine = (function(global) {
          */
         lastTime = now;
 
-        if (player.victory === true || pause === true) {
-            win.cancelAnimationFrame(frameId);
+        if (pause === true) { //Check if pause was pressed
+            win.cancelAnimationFrame(frameId); //cancel the loop
         }
         else {
-            frameId = win.requestAnimationFrame(main);
+            frameId = win.requestAnimationFrame(main); //or continue with loop
         }
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
@@ -75,18 +75,28 @@ var Engine = (function(global) {
     }
 
     sButton.onclick = function () {
-        player.victory = false;
         pause = false;
-        //win.requestAnimationFrame(main);
-        init();
+        lastTime = Date.now();
+        win.requestAnimationFrame(main);
     }
+
+    rsButton.addEventListener('click', reset);
+    
 
         /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
      * those sorts of things. It's only called once by the init() method.
      */
-    function reset() {
-        // noop
+    function reset() { //this resets all crucial elements of the game
+        player.victory = 0;
+        player.resetPos();
+        allEnemies = [];
+        numOfE.value = 5;
+        eCount = numOfE.value;
+        createEnemies(eCount);
+        pause = false;
+        winCount.textContent = 'Reach the water again!';
+        init();
     }
 
     /* This function is called by main (our game loop) and itself calls all
