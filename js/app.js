@@ -13,7 +13,7 @@ pButton.onclick = function () { //when the button pause is pressed
 }
 
 numOfE.oninput = function () { //This function resets the enemies array and populates it with the new number of enemies on input
-    if (eCount > 10) {
+    if (numOfE.value > 10 || numOfE.value < 1) {
         numOfELabel.textContent = 'A number between 1 and 10';
     } else {
         allEnemies = [];
@@ -34,7 +34,7 @@ var Enemy = function() { //Our enemies constructor function
 
 Enemy.prototype.update = function(dt) { //update the enemies position
     if (this.x < this.movHorizontal * 5) { //This sets the boundaries for the enemy
-        this.x += this.speed * dt //Distance to travel times timedelta
+        this.x += this.speed * dt; //Distance to travel times timedelta
     } else {
         this.x = -this.movHorizontal;
     }
@@ -56,7 +56,7 @@ class Player { //Our player
         this.victory = 0;
     }
     render () { //Draw our player on screen
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y) 
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y); 
     }
     update () { // Update position and check for collision and win
         for (const enemy of allEnemies) { //loop though the array of enemies
